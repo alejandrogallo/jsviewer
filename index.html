@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Something yes </title>
+  </head>
+  <body>
+
+    <div id="viewer"
+         data-callback="init"
+         class="viewer_3Dmoljs"
+         data-href="POSCAR"
+         data-datatype="vasp"
+         style="display:block; height: 800px; width: 800px; position: relative;">
+    </div>
+
+    <ul>
+      <li>
+        <label for="isovalue">Isovalue</label>
+        <input onchange="renderIso()" type="number" step="0.001" name="isovalue" value="0.01" id="isovalue">
+      </li>
+      <li>
+        <label for="opacity">Opacity</label>
+        <input type="number" step="0.01" min="0" max="1" name="opacity" value="0.95" id="opacity">
+      </li>
+      <li>
+        <label for="smoothness">Smoothness</label>
+        <input type="number" step="0.01" min="0" max="100" name="smoothness" value="10" id="smoothness">
+      </li>
+      <li>
+        <label for="alpha">Alpha</label>
+        <input type="number" step="0.01" min="0" max="1" name="alpha" value="0.95" id="alpha">
+      </li>
+    </ul>
+    <button type="submit" onclick="clear()">Clear</button>
+    <button type="submit" onclick="render()">Render again</button>
+    <button type="submit" onclick="renderIso()">Render isosurface</button>
+    <br>
+    <label for="radiusScale">Radius scale</label><input type="number" step="0.01" min="0" max="1" name="radiusScale" value="0.95" id="radiusScale">
+    <label for="Voxel">Voxel</label><input type="checkbox" name="voxel" id="voxel">
+
+    <ul id="chgcar-list">
+      <h3>CHG files</h3>
+    </ul>
+
+
+
+
+
+
+
+    <script src="3Dmol.js/build/3Dmol.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="./js/nv.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <!--<script src="3Dmol.js/3Dmol/volume.js" type="text/javascript" charset="utf-8"></script>-->
+    <!--<script src="3Dmol.js/3Dmol/glshape.js" type="text/javascript" charset="utf-8"></script>-->
+    <!--<script src="3Dmol.js/3Dmol/marchingcube.js" type="text/javascript" charset="utf-8"></script>-->
+    <!--<script src="3Dmol.js/3Dmol/parsers.js" type="text/javascript" charset="utf-8"></script>-->
+    <!--<script src="3Dmol.js/3Dmol/glmodel.js" type="text/javascript" charset="utf-8"></script>-->
+    <!--<script src="3Dmol.js/3Dmol/parsers.js" type="text/javascript" charset="utf-8"></script>-->
+
+  </body>
+</html>

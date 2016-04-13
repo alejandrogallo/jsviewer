@@ -1,0 +1,33 @@
+{
+  "name": "jsviewer",
+  "description": "A 3Dmol.js stand alone viewer for molecular structures",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "3Dmol.js",
+    "vesta",
+    "vasp",
+    "chgcar",
+    "cif",
+    "pdb",
+    "gaussian",
+    "molecules",
+    "atoms"
+  ],
+  "authors": [
+    "Alejandro Gallo"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/alejandrogallo/jsviewer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-bootstrap": "^1.3.1"
+  }
+}
