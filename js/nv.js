@@ -20,6 +20,18 @@ angular.module("viewer", ["ui.bootstrap"])
     console.log($scope.MAIN_VIEWER);
   }
 
+  $scope.isOverriden = function(object, key) {
+    if (object.extras) {
+      if (object.extras[key]) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   $scope.addModelObject = function (name, value) {
     var model = {};
     var format = name.match(/\.\w+$/);
@@ -56,33 +68,12 @@ angular.module("viewer", ["ui.bootstrap"])
     var path;
     var variablesToParse;
 
-   //see if there are variables to parse
+    //see if there are variables to parse
     if (name.match(/\?/)) {
       path = name.split("?")[0];
       variablesToParse = name.split("?")[1];
     }else{
       path=name;
-    }
-
-    //Parse variables
-    if (variablesToParse) {
-      console.log("Parsing variables...");
-      var varArray = variablesToParse.split("&");
-      for (var i = 0, len = varArray.length; i < len; i++) {
-        var key   = varArray[i].split("=")[0];
-        var value = varArray[i].split("=")[1];
-        if (key&&value) {
-          chgcarObject.extras[key]=value;
-        }
-      }
-    }
-
-    var format = path.match(/\.\w+$/);
-    if (format) {
-      chgcarObject.format = format[0].replace(".","");
-    }
-    else {
-      chgcarObject.format="vasp"; //It suits my needs
     }
 
     chgcarObject.index       = $scope.CHGCARS.length +1;
@@ -97,6 +88,38 @@ angular.module("viewer", ["ui.bootstrap"])
     chgcarObject.smoothness  = 1;
     chgcarObject.voxel       = false;
     chgcarObject.color       = $scope.MAIN_COLORS[chgcarObject.index%$scope.MAIN_COLORS.length];
+
+    //Parse variables
+    if (variablesToParse) {
+      console.log("Parsing variables...");
+      var varArray = variablesToParse.split("&");
+      for (var i = 0, len = varArray.length; i < len; i++) {
+        var key   = varArray[i].split("=")[0];
+        var value = varArray[i].split("=")[1];
+        if (key&&value) {
+          //allow for overriding of keys
+          if (chgcarObject[key]) {
+            if (isNaN(parseFloat(value))) {
+              chgcarObject[key] = value;
+            }else {
+              chgcarObject[key] = parseFloat(value);
+            }
+          }
+          //it will be saved in both objects so that we know that it has been
+          //overriden
+          chgcarObject.extras[key]=value;
+        }
+      }
+    }
+
+    var format = path.match(/\.\w+$/);
+    if (format) {
+      chgcarObject.format = format[0].replace(".","");
+    }
+    else {
+      chgcarObject.format="vasp"; //It suits my needs
+    }
+
 
     $scope.CHGCARS.push(chgcarObject);
   }
@@ -195,8 +218,10 @@ angular.module("viewer", ["ui.bootstrap"])
         var voldata    = new $3Dmol.VolumeData(data, format);
         chgcarObject.data = voldata;
         $scope.setMaximumIsovalue(chgcarObject);
-        chgcarObject.isovalue = parseFloat($filter('number')(chgcarObject.max*0.8, 4));
-        var isovalue   = chgcarObject.isovalue;
+        if (!$scope.isOverriden(chgcarObject, "isovalue")) {
+          chgcarObject.isovalue = parseFloat($filter('number')(chgcarObject.max*0.8, 4));
+          var isovalue   = chgcarObject.isovalue;
+        }
         $scope.MAIN_VIEWER.addIsosurface(voldata , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
         $scope.MAIN_VIEWER.render();
       });
