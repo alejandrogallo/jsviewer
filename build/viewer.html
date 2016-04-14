@@ -1174,8 +1174,8 @@ $3Dmol.workerString=function(){self.onmessage=function(b){b=b.data;var c=b.type;
     console.log("Initialising...");
     $scope.getChgcarNames();
     //MAIN_VIEWER = $3Dmol.viewers.viewer;
-    $scope.addModelObject("test_structs/CONTCAR", true); // Maybe erase in the future
-    $scope.addChgcarObject("test_structs/CHGCAR"); // Maybe erase in the future
+    $scope.addModelObject("CONTCAR", true); // Maybe erase in the future
+    //$scope.addChgcarObject("CHGCAR"); // Maybe erase in the future
     $scope.MAIN_VIEWER=$3Dmol.createViewer("viewer");
     $scope.MAIN_VIEWER.setBackgroundColor(0xffffff);
   }
@@ -1206,7 +1206,7 @@ $3Dmol.workerString=function(){self.onmessage=function(b){b=b.data;var c=b.type;
     }
     chgcarObject.name = name;
     chgcarObject.data = false;
-    chgcarObject.value = true;
+    chgcarObject.value = false;
     chgcarObject.isovalue = 0.01;
     chgcarObject.opacity = 0.95;
     chgcarObject.alpha = 0.5;
