@@ -61,8 +61,10 @@ angular.module("viewer", ["ui.bootstrap"])
     }
     chgcarObject.name = name;
     chgcarObject.data = false;
+    chgcarObject.interactive = false;
     chgcarObject.value = true;
     chgcarObject.isovalue = 0.01;
+    chgcarObject.isoStep = 0.0001;
     chgcarObject.opacity = 0.95;
     chgcarObject.alpha = 0.5;
     chgcarObject.smoothness = 1;
@@ -107,6 +109,18 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.MAIN_VIEWER.removeAllShapes();
     $scope.MAIN_VIEWER.removeAllSurfaces();
     $scope.renderChgcar();
+  }
+
+  $scope.clearVolumetric = function (chgcarObject) {
+    // TODO
+    $scope.clear();
+  }
+
+  $scope.interactiveRenderVolumetric = function (chgcarObject) {
+    if (chgcarObject.interactive) {
+      $scope.clearVolumetric(chgcarObject);
+      $scope.renderVolumetricData(chgcarObject);
+    }
   }
 
   $scope.renderVolumetricData = function (chgcarObject) {
@@ -167,5 +181,3 @@ angular.module("viewer", ["ui.bootstrap"])
   $scope.init();
 
 }]);
-sovalue
-kkkkkk
