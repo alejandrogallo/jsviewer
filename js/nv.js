@@ -13,7 +13,7 @@ angular.module("viewer", ["ui.bootstrap"])
     console.log("Initialising...");
     $scope.getChgcarNames();
     //MAIN_VIEWER = $3Dmol.viewers.viewer;
-    $scope.addModelObject("CONTCAR", true); // Maybe erase in the future 
+    $scope.addModelObject("tests/data/CONTCAR", true); // Maybe erase in the future
     $scope.MAIN_VIEWER=$3Dmol.createViewer("viewer");
     $scope.MAIN_VIEWER.setBackgroundColor(0xffffff);
   }
@@ -40,11 +40,11 @@ angular.module("viewer", ["ui.bootstrap"])
       chgcarObject.format = format[0].replace(".","");
     }
     else {
-      chgcarObject.format="unknown";
+      chgcarObject.format="vasp"; //It suits my needs
     }
     chgcarObject.name = name;
     chgcarObject.data = false;
-    chgcarObject.value = false;
+    chgcarObject.value = true;
     chgcarObject.isovalue = 0.01;
     chgcarObject.opacity = 0.95;
     chgcarObject.alpha = 0.5;
@@ -81,7 +81,7 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.clear();
     $scope.renderModels();
     $scope.renderChgcar();
-    $scope.MAIN_VIEWER.setSlab(-20,20);
+    $scope.MAIN_VIEWER.setSlab(-50,50);
     $scope.MAIN_VIEWER.render();
     //$scope.MAIN_VIEWER.zoomTo();
   }
@@ -140,7 +140,7 @@ angular.module("viewer", ["ui.bootstrap"])
   }
   $scope.renderModels = function() {
     $scope.MODELS.forEach(function(model){
-      $scope.renderModel(model); 
+      $scope.renderModel(model);
     });
   }
 
