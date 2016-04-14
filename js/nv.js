@@ -52,6 +52,7 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.addChgcarObject = function(name) {
     var chgcarObject={};
+    chgcarObject.extras = {};
     var path;
     var variablesToParse;
 
@@ -71,7 +72,7 @@ angular.module("viewer", ["ui.bootstrap"])
         var key   = varArray[i].split("=")[0];
         var value = varArray[i].split("=")[1];
         if (key&&value) {
-          chgcarObject[key]=value;
+          chgcarObject.extras[key]=value;
         }
       }
     }
@@ -83,6 +84,8 @@ angular.module("viewer", ["ui.bootstrap"])
     else {
       chgcarObject.format="vasp"; //It suits my needs
     }
+
+    chgcarObject.index       = $scope.CHGCARS.length +1;
     chgcarObject.name        = path;
     chgcarObject.data        = false;
     chgcarObject.interactive = false;
@@ -93,7 +96,7 @@ angular.module("viewer", ["ui.bootstrap"])
     chgcarObject.alpha       = 0.5;
     chgcarObject.smoothness  = 1;
     chgcarObject.voxel       = false;
-    chgcarObject.color       = "blue";
+    chgcarObject.color       = $scope.MAIN_COLORS[chgcarObject.index%$scope.MAIN_COLORS.length];
 
     $scope.CHGCARS.push(chgcarObject);
   }
@@ -136,6 +139,28 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.renderChgcar();
   }
 
+  $scope.MAIN_COLORS=[ "white",
+  "red",
+  "maroon",
+  "yellow",
+    "orange",
+    "olive",
+      "lime",
+      "green",
+        "aqua",
+        "cyan",
+          "teal",
+          "blue",
+            "navy",
+            "purple",
+              "fuchsia",
+              "magenta",
+              "silver",
+                "gray",
+                "grey",
+                  "black"
+  ];
+
   $scope.clearVolumetric = function (chgcarObject) {
     // TODO
     $scope.clear();
@@ -149,6 +174,7 @@ angular.module("viewer", ["ui.bootstrap"])
   }
 
   $scope.renderVolumetricData = function (chgcarObject) {
+
     var isovalue   = chgcarObject.isovalue;
     var opacity    = chgcarObject.opacity;
     var alpha      = chgcarObject.alpha;
@@ -157,6 +183,7 @@ angular.module("viewer", ["ui.bootstrap"])
     var format     = chgcarObject.format;
     var color     = chgcarObject.color;
     var volumetric_path = chgcarObject.name;
+
     if (chgcarObject.data) {
       $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
       $scope.MAIN_VIEWER.render();
