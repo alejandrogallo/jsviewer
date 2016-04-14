@@ -1,4 +1,5 @@
 .PHONY: build
+all: build
 build:
 	make -C tools build
 test-chgcar.list:
