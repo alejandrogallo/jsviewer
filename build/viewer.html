@@ -1182,7 +1182,7 @@ $3Dmol.workerString=function(){self.onmessage=function(b){b=b.data;var c=b.type;
 
   $scope.addModelObject = function (name, value) {
     var model = {};
-    var format = name.match(/\..*/);
+    var format = name.match(/\.\w+$/);
     if (format) {
       model.format = format[0].replace(".","");
     }
@@ -1197,7 +1197,7 @@ $3Dmol.workerString=function(){self.onmessage=function(b){b=b.data;var c=b.type;
 
   $scope.addChgcarObject = function(name) {
     var chgcarObject={};
-    var format = name.match(/\..*/);
+    var format = name.match(/\.\w+$/);
     if (format) {
       chgcarObject.format = format[0].replace(".","");
     }

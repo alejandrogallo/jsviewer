@@ -21,7 +21,7 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.addModelObject = function (name, value) {
     var model = {};
-    var format = name.match(/\..*/);
+    var format = name.match(/\.\w+$/);
     if (format) {
       model.format = format[0].replace(".","");
     }
@@ -36,7 +36,7 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.addChgcarObject = function(name) {
     var chgcarObject={};
-    var format = name.match(/\..*/);
+    var format = name.match(/\.\w+$/);
     if (format) {
       chgcarObject.format = format[0].replace(".","");
     }
