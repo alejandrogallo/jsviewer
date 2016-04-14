@@ -13,7 +13,8 @@ angular.module("viewer", ["ui.bootstrap"])
     console.log("Initialising...");
     $scope.getChgcarNames();
     //MAIN_VIEWER = $3Dmol.viewers.viewer;
-    $scope.addModelObject("tests/data/CONTCAR", true); // Maybe erase in the future
+    $scope.addModelObject("CONTCAR", true); // Maybe erase in the future
+    //$scope.addChgcarObject("CHGCAR"); // Maybe erase in the future
     $scope.MAIN_VIEWER=$3Dmol.createViewer("viewer");
     $scope.MAIN_VIEWER.setBackgroundColor(0xffffff);
   }
@@ -44,7 +45,7 @@ angular.module("viewer", ["ui.bootstrap"])
     }
     chgcarObject.name = name;
     chgcarObject.data = false;
-    chgcarObject.value = true;
+    chgcarObject.value = false;
     chgcarObject.isovalue = 0.01;
     chgcarObject.opacity = 0.95;
     chgcarObject.alpha = 0.5;
