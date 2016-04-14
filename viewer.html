@@ -36,8 +36,8 @@
         <!--{{chg}}-->
         <ul>
           <li>
-            <label for="isovalue">Isovalue</label>
-            <input ng-model="chg.isovalue" type="number" step="0.001" name="isovalue" value="0.01" id="isovalue">
+            <label for="isovalue">Isovalue (max {{chg.max|number:4}})</label>
+            <input ng-model="chg.isovalue" ng-value"chg.isovalue"  type="number" step="0.0001" name="isovalue" >
           </li>
           <li>
             <label for="opacity">Opacity</label>

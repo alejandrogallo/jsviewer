@@ -1,5 +1,5 @@
 angular.module("viewer", ["ui.bootstrap"])
-.controller("ViewerController", ["$scope", "$http", function($scope, $http){
+.controller("ViewerController", ["$scope", "$http", "$filter", function($scope, $http, $filter){
 
   $scope.volumetricFilesPath="chgcar.list";
 
@@ -34,6 +34,21 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.MODELS.push(model);
   }
 
+  $scope.setMaximumIsovalue = function (chgcarObject) {
+    if (chgcarObject.data) {
+      console.log("Looking for maximum data point");
+      var data = chgcarObject.data.data;
+      var max=0;
+      data.forEach(function(value, index){
+        if (max < value) {
+          max = value;
+        }
+      });
+      console.log(max);
+      chgcarObject.max = max;
+    }
+  }
+
   $scope.addChgcarObject = function(name) {
     var chgcarObject={};
     var format = name.match(/\.\w+$/);
@@ -45,7 +60,7 @@ angular.module("viewer", ["ui.bootstrap"])
     }
     chgcarObject.name = name;
     chgcarObject.data = false;
-    chgcarObject.value = false;
+    chgcarObject.value = true;
     chgcarObject.isovalue = 0.01;
     chgcarObject.opacity = 0.95;
     chgcarObject.alpha = 0.5;
@@ -112,6 +127,8 @@ angular.module("viewer", ["ui.bootstrap"])
         var data       = response.data;
         var voldata    = new $3Dmol.VolumeData(data, format);
         chgcarObject.data = voldata;
+        $scope.setMaximumIsovalue(chgcarObject);
+        chgcarObject.isovalue = parseFloat($filter('number')(chgcarObject.max*0.8, 4));
         $scope.MAIN_VIEWER.addIsosurface(voldata , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
         $scope.MAIN_VIEWER.render();
       });
@@ -148,4 +165,5 @@ angular.module("viewer", ["ui.bootstrap"])
   $scope.init();
 
 }]);
-
+sovalue
+kkkkkk
