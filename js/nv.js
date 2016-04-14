@@ -12,11 +12,12 @@ angular.module("viewer", ["ui.bootstrap"])
   $scope.init = function() {
     console.log("Initialising...");
     $scope.getChgcarNames();
-    //MAIN_VIEWER = $3Dmol.viewers.viewer;
     $scope.addModelObject("CONTCAR", true); // Maybe erase in the future
     //$scope.addChgcarObject("CHGCAR"); // Maybe erase in the future
     $scope.MAIN_VIEWER=$3Dmol.createViewer("viewer");
     $scope.MAIN_VIEWER.setBackgroundColor(0xffffff);
+    console.log("DEBUG: VIEWER");
+    console.log($scope.MAIN_VIEWER);
   }
 
   $scope.addModelObject = function (name, value) {
@@ -129,6 +130,7 @@ angular.module("viewer", ["ui.bootstrap"])
         chgcarObject.data = voldata;
         $scope.setMaximumIsovalue(chgcarObject);
         chgcarObject.isovalue = parseFloat($filter('number')(chgcarObject.max*0.8, 4));
+        var isovalue   = chgcarObject.isovalue;
         $scope.MAIN_VIEWER.addIsosurface(voldata , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
         $scope.MAIN_VIEWER.render();
       });
