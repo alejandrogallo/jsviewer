@@ -42,60 +42,79 @@
           </button>
         </uib-tab-heading>
         <!--{{chg}}-->
-        <ul>
-          <li>
-            <label for="isovalue">Isovalue (max {{chg.max|number:4}})</label>
-            <input ng-model="chg.isovalue" ng-value"chg.isovalue"  ng-change="interactiveRenderVolumetric(chg)" type="number" step="{{chg.isoStep}}"  >
-            <br>
-            <label for="isovalueStep">Step</label>
-            <input ng-model="chg.isoStep" ng-value"chg.isoStep"  type="text" >
-            <label for="">Interactive?</label>
-            <input type="checkbox" ng-true-value="true" ng-false-value="false" ng-model="chg.interactive" >
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="input-group">
+              <label for="isovalue">Isovalue (max {{chg.max|number:4}})</label>
+              <input class="form-control" ng-model="chg.isovalue" ng-value"chg.isovalue"  ng-change="interactiveRenderVolumetric(chg)" type="number" step="{{chg.isoStep}}"  >
+            </div>
+            <div class="input-group">
+              <label for="">Interactive?</label>
+              <input type="checkbox" ng-true-value="true" ng-false-value="false" ng-model="chg.interactive" >
+            </div>
+            <div class="input-group">
+              <label for="isovalueStep">Step</label>
+              <input class="form-control" ng-model="chg.isoStep" ng-value"chg.isoStep"  type="text" >
+            </div>
           </li>
-            <li>
-              <label for="opacity">Opacity</label>
-              <input ng-model="chg.opacity" type="number" step="0.01" min="0" max="1" name="opacity" value="0.95" id="opacity">
-            </li>
-            <li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <label class="">Opacity</label>
+              <input class="form-control" ng-model="chg.opacity" type="number" step="0.01" min="0" max="1" name="opacity" value="0.95" id="opacity">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
               <label for="smoothness">Smoothness</label>
-              <input ng-model="chg.smoothness" type="number" step="0.01" min="0" max="100" name="smoothness" value="10" id="smoothness">
-            </li>
-            <li>
+              <input class="form-control" ng-model="chg.smoothness" type="number" step="0.01" min="0" max="100" name="smoothness" value="10" id="smoothness">
+            </div>
+          </li>
+          <li class="list-group-item" class="list-group-item">
+            <div class="input-group">
               <label for="alpha">Alpha</label>
-              <input ng-model="chg.alpha" type="number" step="0.01" min="0" max="1" name="alpha" value="0.95" id="alpha">
-            </li>
-            <li>
-              <label for="Voxel">Voxel</label><input ng-true-value="true" ng-false-value="false" ng-model="chg.voxel" type="checkbox" name="voxel" id="voxel">
-            </li>
-            </li>
-            <li>
-              <label for="format">Format</label><input ng-model="chg.format" type="text" >
-            </li>
-              <li>
-                <label for="Color">Color</label>
-                <select class="form-control"  ng-value="chg.color" ng-model="chg.color" size="1">
-                  <option style="font-weight:bold; color:white" value="white">white</option>
-                  <option style="font-weight:bold; color:silver" value="silver">silver</option>
-                  <option style="font-weight:bold; color:gray" value="gray">gray</option>
-                  <option style="font-weight:bold; color:grey" value="grey">grey</option>
-                  <option style="font-weight:bold; color:black" value="black">black</option>
-                  <option style="font-weight:bold; color:red" value="red">red</option>
-                  <option style="font-weight:bold; color:maroon" value="maroon">maroon</option>
-                  <option style="font-weight:bold; color:yellow" value="yellow">yellow</option>
-                  <option style="font-weight:bold; color:orange" value="orange">orange</option>
-                  <option style="font-weight:bold; color:olive" value="olive">olive</option>
-                  <option style="font-weight:bold; color:lime" value="lime">lime</option>
-                  <option style="font-weight:bold; color:green" value="green">green</option>
-                  <option style="font-weight:bold; color:aqua" value="aqua">aqua</option>
-                  <option style="font-weight:bold; color:cyan" value="cyan">cyan</option>
-                  <option style="font-weight:bold; color:teal" value="teal">teal</option>
-                  <option style="font-weight:bold; color:blue" value="blue">blue</option>
-                  <option style="font-weight:bold; color:navy" value="navy">navy</option>
-                  <option style="font-weight:bold; color:fuchsia" value="fuchsia">fuchsia</option>
-                  <option style="font-weight:bold; color:magenta" value="magenta">magenta</option>
-                  <option style="font-weight:bold; color:purple" value="purple">purple</option>
-                </select>
-              </li>
+              <input class="form-control" ng-model="chg.alpha" type="number" step="0.01" min="0" max="1" name="alpha" value="0.95" id="alpha">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <label for="Voxel">Voxel</label>
+              <input class="form-control" ng-true-value="true" ng-false-value="false" ng-model="chg.voxel" type="checkbox" name="voxel" id="voxel">
+            </div>
+          </li>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <label for="format">Format</label>
+              <input class="form-control" ng-model="chg.format" type="text" >
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <label for="Color">Color</label>
+              <select class="form-control"  ng-value="chg.color" ng-model="chg.color" size="1">
+                <option style="font-weight:bold; color:white" value="white">white</option>
+                <option style="font-weight:bold; color:silver" value="silver">silver</option>
+                <option style="font-weight:bold; color:gray" value="gray">gray</option>
+                <option style="font-weight:bold; color:grey" value="grey">grey</option>
+                <option style="font-weight:bold; color:black" value="black">black</option>
+                <option style="font-weight:bold; color:red" value="red">red</option>
+                <option style="font-weight:bold; color:maroon" value="maroon">maroon</option>
+                <option style="font-weight:bold; color:yellow" value="yellow">yellow</option>
+                <option style="font-weight:bold; color:orange" value="orange">orange</option>
+                <option style="font-weight:bold; color:olive" value="olive">olive</option>
+                <option style="font-weight:bold; color:lime" value="lime">lime</option>
+                <option style="font-weight:bold; color:green" value="green">green</option>
+                <option style="font-weight:bold; color:aqua" value="aqua">aqua</option>
+                <option style="font-weight:bold; color:cyan" value="cyan">cyan</option>
+                <option style="font-weight:bold; color:teal" value="teal">teal</option>
+                <option style="font-weight:bold; color:blue" value="blue">blue</option>
+                <option style="font-weight:bold; color:navy" value="navy">navy</option>
+                <option style="font-weight:bold; color:fuchsia" value="fuchsia">fuchsia</option>
+                <option style="font-weight:bold; color:magenta" value="magenta">magenta</option>
+                <option style="font-weight:bold; color:purple" value="purple">purple</option>
+              </select>
+            </div>
+          </li>
         </ul>
         <button class="btn btn-primary" ng-click="renderVolumetricData(chg)">Render</button>
         </uib-tab>

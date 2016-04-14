@@ -52,24 +52,49 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.addChgcarObject = function(name) {
     var chgcarObject={};
-    var format = name.match(/\.\w+$/);
+    var path;
+    var variablesToParse;
+
+   //see if there are variables to parse
+    if (name.match(/\?/)) {
+      path = name.split("?")[0];
+      variablesToParse = name.split("?")[1];
+    }else{
+      path=name;
+    }
+
+    //Parse variables
+    if (variablesToParse) {
+      console.log("Parsing variables...");
+      var varArray = variablesToParse.split("&");
+      for (var i = 0, len = varArray.length; i < len; i++) {
+        var key   = varArray[i].split("=")[0];
+        var value = varArray[i].split("=")[1];
+        if (key&&value) {
+          chgcarObject[key]=value;
+        }
+      }
+    }
+
+    var format = path.match(/\.\w+$/);
     if (format) {
       chgcarObject.format = format[0].replace(".","");
     }
     else {
       chgcarObject.format="vasp"; //It suits my needs
     }
-    chgcarObject.name = name;
-    chgcarObject.data = false;
+    chgcarObject.name        = path;
+    chgcarObject.data        = false;
     chgcarObject.interactive = false;
-    chgcarObject.value = true;
-    chgcarObject.isovalue = 0.01;
-    chgcarObject.isoStep = 0.0001;
-    chgcarObject.opacity = 0.95;
-    chgcarObject.alpha = 0.5;
-    chgcarObject.smoothness = 1;
-    chgcarObject.voxel = false;
-    chgcarObject.color = "blue";
+    chgcarObject.value       = true;
+    chgcarObject.isovalue    = 0.01;
+    chgcarObject.isoStep     = 0.0001;
+    chgcarObject.opacity     = 0.95;
+    chgcarObject.alpha       = 0.5;
+    chgcarObject.smoothness  = 1;
+    chgcarObject.voxel       = false;
+    chgcarObject.color       = "blue";
+
     $scope.CHGCARS.push(chgcarObject);
   }
 
