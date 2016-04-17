@@ -57,11 +57,17 @@
                     <i class="glyphicon glyphicon-minus" ng-show="!chg.value"></i>
                     <i class="glyphicon glyphicon-plus" ng-show="chg.value"></i>
                   </button>
-                  <span class="label label-default" uib-tooltip="energy" ng-if="chg.extras.energy">
+                  <span class="label label-warning" uib-tooltip="energy" ng-if="chg.extras.energy">
                     {{chg.extras.energy | number:2}}
                   </span>
                   <span class="label label-default" uib-tooltip="spin" ng-if="chg.extras.spin">
                     {{chg.extras.spin | number:0}}
+                  </span>
+                  <span class="label label-default" uib-tooltip="occupation" ng-if="chg.extras.occupation">
+                    {{chg.extras.occupation | number:1}}
+                  </span>
+                  <span class="label label-default" uib-tooltip="Band" ng-if="chg.extras.number">
+                    {{chg.extras.number | number:0}}
                   </span>
                 </uib-tab-heading>
                 <!--{{chg}}-->
