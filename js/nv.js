@@ -37,9 +37,6 @@ angular.module("viewer", ["ui.bootstrap"])
     var format = name.match(/\.\w+$/);
     if (format) {
       model.format = format[0].replace(".","");
-      if (model.format.match(/ALLK/)) {
-        model.format="vasp";
-      }
     }
     else {
       //this would suit me
@@ -118,6 +115,9 @@ angular.module("viewer", ["ui.bootstrap"])
     var format = path.match(/\.\w+$/);
     if (format) {
       chgcarObject.format = format[0].replace(".","");
+      if (chgcarObject.format.match(/ALLK/)) {
+        chgcarObject.format="vasp";
+      }
     }
     else {
       chgcarObject.format="vasp"; //It suits my needs

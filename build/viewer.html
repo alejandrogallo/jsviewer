@@ -1241,9 +1241,6 @@ $3Dmol.workerString=function(){self.onmessage=function(b){b=b.data;var c=b.type;
     var format = name.match(/\.\w+$/);
     if (format) {
       model.format = format[0].replace(".","");
-      if (model.format.match(/ALLK/)) {
-        model.format="vasp";
-      }
     }
     else {
       //this would suit me
@@ -1322,6 +1319,9 @@ $3Dmol.workerString=function(){self.onmessage=function(b){b=b.data;var c=b.type;
     var format = path.match(/\.\w+$/);
     if (format) {
       chgcarObject.format = format[0].replace(".","");
+      if (chgcarObject.format.match(/ALLK/)) {
+        chgcarObject.format="vasp";
+      }
     }
     else {
       chgcarObject.format="vasp"; //It suits my needs
