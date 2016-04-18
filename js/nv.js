@@ -115,6 +115,7 @@ angular.module("viewer", ["ui.bootstrap"])
     var format = path.match(/\.\w+$/);
     if (format) {
       chgcarObject.format = format[0].replace(".","");
+      //special cases
       if (chgcarObject.format.match(/ALLK/)) {
         chgcarObject.format="vasp";
       }
@@ -125,6 +126,22 @@ angular.module("viewer", ["ui.bootstrap"])
 
 
     $scope.CHGCARS.push(chgcarObject);
+  }
+
+
+  $scope.zoomed=false;
+  $scope.zoomToViewer = function () {
+    var settings = {
+      targetsize:0.9,
+      animationendcallback:null,
+      closeclick:true
+    };
+    if ($scope.zoomed) {
+      $(document.body).zoomTo();
+    } else {
+      $("#viewer").zoomTo(settings);
+    }
+    $scope.zoomed = $scope.zoomed?false:true;
   }
 
   $scope.getChgcarNames = function() {
@@ -181,9 +198,9 @@ angular.module("viewer", ["ui.bootstrap"])
             "purple",
               "fuchsia",
               "magenta",
-              "silver",
+                "silver",
                 "gray",
-                "grey",
+                  "grey",
                   "black"
   ];
 
