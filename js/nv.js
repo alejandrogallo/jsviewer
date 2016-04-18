@@ -3,11 +3,25 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.volumetricFilesPath="chgcar.list";
 
+  //DATABASE
   $scope.CHGCARS=[];
   $scope.MODELS=[];
-
-
   $scope.MAIN_VIEWER=undefined;
+
+  //TABBING STUFF
+  $scope.volumetricTab=-1;
+  $scope.volumetricIsOn=true;
+  $scope.setVolumetric = function () { $scope.volumetricIsOn = true; $scope.structureIsOn=false; }
+  $scope.setVolumetricTab = function (index) { $scope.volumetricTab = index; }
+  $scope.vol_thisTabIsOn = function (index) { return (index == $scope.volumetricTab && $scope.volumetricIsOn)?true:false;}
+
+  //TODO
+  $scope.structureTab=-1;
+  $scope.structureIsOn=true;
+  $scope.setStructure = function () { $scope.structureIsOn = true; $scope.structureIsOn=false; }
+  $scope.setStructureTab = function (index) { $scope.structureTab = index; }
+  $scope.struc_thisTabIsOn = function (index) { return (index == $scope.structureTab && $scope.structureIsOn)?true:false;}
+
 
   $scope.init = function() {
     console.log("Initialising...");
@@ -128,13 +142,19 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.CHGCARS.push(chgcarObject);
   }
 
+  $scope.deactivateAllChgcarobjects = function () {
+    $scope.CHGCARS.forEach(function(element, index){
+      element.value=false;
+    });
+  }
+
 
   $scope.zoomed=false;
   $scope.zoomToViewer = function () {
     var settings = {
-      targetsize:0.9,
+      targetsize:.90,
       animationendcallback:null,
-      closeclick:true
+      closeclick:false
     };
     if ($scope.zoomed) {
       $(document.body).zoomTo();
@@ -173,7 +193,7 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.renderChgcar();
     $scope.MAIN_VIEWER.setSlab(-50,50);
     $scope.MAIN_VIEWER.render();
-    //$scope.MAIN_VIEWER.zoomTo();
+    //$scope.MAIN_VIEWER.hoomTo();
   }
 
   $scope.renderIso = function() {
