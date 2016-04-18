@@ -23,7 +23,7 @@
           <div class="btn-group ">
             <button class="btn btn-primary" type="submit" ng-click="zoomToViewer()"><i class="glyphicon glyphicon-search"></i> Zoom</button>
             <button class="btn btn-primary" type="submit" ng-click="clear()">Clear</button>
-            <button class="btn btn-primary" type="submit" ng-click="render()">Re-render all</button>
+            <button class="btn btn-primary" type="submit" ng-click="renderAll()">Re-render all</button>
             <button class="btn btn-primary" type="submit" ng-click="renderIso()">Re-render volumetric</button>
           </div>
 
@@ -34,7 +34,10 @@
       <div class="col-sm-2">
         <ul class="list-group" ng-repeat="chg in CHGCARS" ng-show="vol_thisTabIsOn(chg.index)">
           <li class="list-group-item" ng-style="{'background': chg.color}">
-            <button class="center-block btn btn-default" ng-click="renderVolumetricData(chg)">Render</button>
+            <div class="btn-group">
+              <button class="btn btn-primary btn-sm" ng-click="renderVolumetricData(chg)">Render</button>
+              <button class="btn btn-primary btn-sm" ng-click="removeShape(chg)">Remove</button>
+            </div>
           </li>
           <li class="list-group-item">
             <div class="input-group">
@@ -183,7 +186,10 @@
               </uib-tab-heading>
               <ul class="list-group">
                 <li class="list-group-item">
-                  <button class="btn btn-primary center-block" ng-click="renderModel(model)">Render</button>
+                  <div class="btn-group">
+                    <button class="btn btn-primary " ng-click="renderModel(model)">Render</button>
+                    <button class="btn btn-primary " ng-click="hideModel(model)">Hide</button>
+                  </div>
                 </li>
                 <li class="list-group-item">
                   TODO STUFF

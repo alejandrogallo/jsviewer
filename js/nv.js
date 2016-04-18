@@ -76,6 +76,7 @@ angular.module("viewer", ["ui.bootstrap"])
     }
   }
 
+
   $scope.addChgcarObject = function(name) {
     var chgcarObject={};
     chgcarObject.extras = {};
@@ -186,25 +187,20 @@ angular.module("viewer", ["ui.bootstrap"])
   }
 
 
-  $scope.clear = function() {
-    console.log("Clearing..");
-    $scope.MAIN_VIEWER.clear();
-  }
 
-
-
-  $scope.render = function() {
+  $scope.renderAll = function() {
+    var CAMERA = 50;
     $scope.clear();
     $scope.renderModels();
     $scope.renderChgcar();
-    $scope.MAIN_VIEWER.setSlab(-50,50);
+    $scope.MAIN_VIEWER.setSlab(-CAMERA,CAMERA);
     $scope.MAIN_VIEWER.render();
-    //$scope.MAIN_VIEWER.hoomTo();
   }
 
   $scope.renderIso = function() {
-    $scope.MAIN_VIEWER.removeAllShapes();
-    $scope.MAIN_VIEWER.removeAllSurfaces();
+    $scope.CHGCARS.forEach(function(shape){
+      $scope.removeShape(shape);
+    });
     $scope.renderChgcar();
   }
 
@@ -237,7 +233,7 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.interactiveRenderVolumetric = function (chgcarObject) {
     if (chgcarObject.interactive) {
-      $scope.clearVolumetric(chgcarObject);
+      $scope.removeShape(chgcarObject);
       $scope.renderVolumetricData(chgcarObject);
     }
   }
@@ -254,8 +250,11 @@ angular.module("viewer", ["ui.bootstrap"])
     var volumetric_path = chgcarObject.name;
 
     if (chgcarObject.data) {
-      $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
-      $scope.MAIN_VIEWER.render();
+      if (!chgcarObject.surfaceObject) {
+        //console.log("Rendering volumetric data for "+chgcarObject.name);
+        chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
+        $scope.render();
+      }
     } else {
       console.log("Loading volumetric_data from "+volumetric_path);
       $http.get(volumetric_path).then(function (response) {
@@ -268,33 +267,77 @@ angular.module("viewer", ["ui.bootstrap"])
           chgcarObject.isovalue = parseFloat($filter('number')(chgcarObject.max*0.8, 4));
           var isovalue   = chgcarObject.isovalue;
         }
-        $scope.MAIN_VIEWER.addIsosurface(voldata , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
-        $scope.MAIN_VIEWER.render();
+        chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
+        console.log(chgcarObject.surfaceObject);
+        $scope.render();
       });
     }
   }
 
+  $scope.removeShape = function (chgcarObject) {
+    if (chgcarObject.surfaceObject) {
+      //console.log("Removing surface from file "+chgcarObject.name);
+      $scope.MAIN_VIEWER.removeShape(chgcarObject.surfaceObject);
+      $scope.render();
+      chgcarObject.surfaceObject = undefined;
+    }
+  }
+
   $scope.renderChgcar = function() {
-    console.log("Rendering Chgcar");
+    //console.log("Rendering Chgcar");
     $scope.CHGCARS.forEach(function(chgcarObject, index){
       if (chgcarObject.value) {
         $scope.renderVolumetricData(chgcarObject);
       }
     });
-
   }
 
+  $scope.clear = function () {
+    $scope.MODELS.forEach(function(model){
+      $scope.removeModel(model);
+    });
+    $scope.CHGCARS.forEach(function(shape){
+      $scope.removeShape(shape);
+    });
+
+  }
+  $scope.render = function () {
+    $scope.MAIN_VIEWER.render();
+  }
+
+  $scope.removeModel = function (model) {
+    if (model.model_object) {
+      $scope.MAIN_VIEWER.removeModel(model.model_object);
+      model.model_object = undefined;
+      $scope.render();
+    }
+  }
+  $scope.hideModel = function (model) {
+    if (model.model_object) {
+      console.log("Hiding model "+model.name);
+      console.log(model.model_object);
+      model.model_object.hide();
+      $scope.render();
+    }
+  }
   $scope.renderModel = function (model) {
     var modelPath=model.name;
     var format=model.format;
-    $http.get(modelPath).then(function(response){
-      console.log("Structural data received");
-      var data= response.data;
-      var model = $scope.MAIN_VIEWER.addModel(data, format);
-      model.setStyle({}, {sphere:{scale: 0.2}, stick:{radius:0.1}});
-      $scope.MAIN_VIEWER.render();
-    });
+    if (model.model_object) {
+      model.model_object.show();
+      $scope.render();
+    } else {
+      $http.get(modelPath).then(function(response){
+        console.log("Structural data received");
+        var data= response.data;
+        var model_object = $scope.MAIN_VIEWER.addModel(data, format);
+        model.model_object = model_object;
+        model.model_object.setStyle({}, {sphere:{scale: 0.2}, stick:{radius:0.1}});
+        $scope.render();
+      });
+    }
   }
+
   $scope.renderModels = function() {
     $scope.MODELS.forEach(function(model){
       $scope.renderModel(model);
