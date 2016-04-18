@@ -1464,16 +1464,14 @@ angular.module("viewer", ["ui.bootstrap"])
     var CAMERA = 50;
     $scope.clear();
     $scope.renderModels();
-    $scope.renderChgcar();
+    $scope.renderVolumetrics();
     $scope.MAIN_VIEWER.setSlab(-CAMERA,CAMERA);
-    $scope.MAIN_VIEWER.render();
+    $scope.render();
   }
 
   $scope.renderIso = function() {
-    $scope.CHGCARS.forEach(function(shape){
-      $scope.removeShape(shape);
-    });
-    $scope.renderChgcar();
+    $scope.removeChgcars();
+    $scope.renderVolumetrics();
   }
 
   $scope.MAIN_COLORS=[ "white",
@@ -1520,6 +1518,7 @@ angular.module("viewer", ["ui.bootstrap"])
       if (!chgcarObject.surfaceObject) {
         printv("Rendering volumetric data for "+chgcarObject.name);
         chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
+        chgcarObject.value=true;
         $scope.render();
       }
     } else {
@@ -1536,10 +1535,12 @@ angular.module("viewer", ["ui.bootstrap"])
         }
         chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
         //printv(chgcarObject.surfaceObject);
+        chgcarObject.value=true;
         $scope.render();
       });
     }
   }
+
   $scope.toggleChgcar = function (chgcarObject) {
     printv("Toggling chgcar");
     if (chgcarObject.value) {
@@ -1547,24 +1548,22 @@ angular.module("viewer", ["ui.bootstrap"])
     } else {
       $scope.renderVolumetricData(chgcarObject);
     }
-    chgcarObject.value = chgcarObject.value?false:true;
   }
 
   $scope.removeShape = function (chgcarObject) {
     if (chgcarObject.surfaceObject) {
       //printv("Removing surface from file "+chgcarObject.name);
       $scope.MAIN_VIEWER.removeShape(chgcarObject.surfaceObject);
+      chgcarObject.value = false;
       $scope.render();
       chgcarObject.surfaceObject = undefined;
     }
   }
 
-  $scope.renderChgcar = function() {
+  $scope.renderVolumetrics = function() {
     //printv("Rendering Chgcar");
     $scope.CHGCARS.forEach(function(chgcarObject, index){
-      if (chgcarObject.value) {
-        $scope.renderVolumetricData(chgcarObject);
-      }
+      $scope.renderVolumetricData(chgcarObject);
     });
   }
 
