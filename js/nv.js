@@ -102,7 +102,7 @@ angular.module("viewer", ["ui.bootstrap"])
     chgcarObject.name        = path;
     chgcarObject.data        = false;
     chgcarObject.interactive = false;
-    chgcarObject.value       = true;
+    chgcarObject.value       = false;
     chgcarObject.isovalue    = 0.01;
     chgcarObject.isoStep     = 0.0001;
     chgcarObject.opacity     = 0.95;
@@ -274,6 +274,15 @@ angular.module("viewer", ["ui.bootstrap"])
         $scope.render();
       });
     }
+  }
+  $scope.toggleChgcar = function (chgcarObject) {
+    printv("Toggling chgcar");
+    if (chgcarObject.value) {
+      $scope.removeShape(chgcarObject);
+    } else {
+      $scope.renderVolumetricData(chgcarObject);
+    }
+    chgcarObject.value = chgcarObject.value?false:true;
   }
 
   $scope.removeShape = function (chgcarObject) {

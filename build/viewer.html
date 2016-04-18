@@ -107,7 +107,7 @@
               <ul id="chgcar-list">
                 <li class="checkbox" ng-repeat="chg in CHGCARS">
                   <label for="">{{chg.name}}</label>
-                  <input type="checkbox" ng-true-value="true" ng-false-value="false"  ng-value="chg.value" ng-model="chg.value" name="{{chg.name}}" id="{{chg.name}}">
+                  <input type="checkbox" ng-true-value="false" ng-false-value="true"  ng-value="chg.value" ng-click="toggleChgcar(chg)" name="{{chg.name}}" id="{{chg.name}}">
                 </li>
                 <li class="checkbox" >
                   <button class="btn btn-warning btn-xs" ng-click="deactivateAllChgcarobjects()">
@@ -127,12 +127,12 @@
               <button class="btn btn-primary" ng-click="addChgcarObject(newChgName)"><i class="glyphicon glyphicon-plus"></i></button>
 
             </uib-tab>
-            <uib-tab ng-repeat="chg in CHGCARS" index="chg.index" ng-click="setVolumetricTab(chg.index)"  disable="!chg.value">
+            <uib-tab ng-repeat="chg in CHGCARS" index="chg.index" ng-click="setVolumetricTab(chg.index)">
               <uib-tab-heading>
                 <i ng-style="{'color': chg.color}" class="glyphicon glyphicon-cog"></i>
                 {{chg.name}}
-                <button class="btn btn-xs btn-warning " uib-btn-checkbox ng-model="chg.value">
-                  <i class="glyphicon glyphicon-minus" ng-show="!chg.value"></i>
+                <button class="btn btn-xs " ng-class="{'btn-danger':!chg.value, 'btn-success': chg.value} "ub-tooltip="toggle" ng-click="toggleChgcar(chg)" >
+                  <i class="glyphicon glyphicon-minus" ng-hide="chg.value"></i>
                   <i class="glyphicon glyphicon-plus" ng-show="chg.value"></i>
                 </button>
                 <span class="label label-warning" uib-tooltip="energy" ng-if="chg.extras.energy">
@@ -1367,7 +1367,7 @@ angular.module("viewer", ["ui.bootstrap"])
     chgcarObject.name        = path;
     chgcarObject.data        = false;
     chgcarObject.interactive = false;
-    chgcarObject.value       = true;
+    chgcarObject.value       = false;
     chgcarObject.isovalue    = 0.01;
     chgcarObject.isoStep     = 0.0001;
     chgcarObject.opacity     = 0.95;
@@ -1539,6 +1539,15 @@ angular.module("viewer", ["ui.bootstrap"])
         $scope.render();
       });
     }
+  }
+  $scope.toggleChgcar = function (chgcarObject) {
+    printv("Toggling chgcar");
+    if (chgcarObject.value) {
+      $scope.removeShape(chgcarObject);
+    } else {
+      $scope.renderVolumetricData(chgcarObject);
+    }
+    chgcarObject.value = chgcarObject.value?false:true;
   }
 
   $scope.removeShape = function (chgcarObject) {
