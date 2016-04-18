@@ -49,7 +49,7 @@
                 <button class="btn btn-primary" ng-click="addChgcarObject(newChgName)"><i class="glyphicon glyphicon-plus"></i></button>
 
               </uib-tab>
-              <uib-tab ng-repeat="chg in CHGCARS" index="$index" disable="!chg.value">
+              <uib-tab ng-repeat="chg in CHGCARS" ng-class="{'success': chg.extras.occupation}" index="$index" disable="!chg.value">
                 <uib-tab-heading>
                   <i ng-style="{'color': chg.color}" class="glyphicon glyphicon-cog"></i>
                   {{chg.name}}
