@@ -142,6 +142,12 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.CHGCARS.push(chgcarObject);
   }
 
+  $scope.activateAllChgcarobjects = function () {
+    $scope.CHGCARS.forEach(function(element, index){
+      element.value=true;
+    });
+  }
+
   $scope.deactivateAllChgcarobjects = function () {
     $scope.CHGCARS.forEach(function(element, index){
       element.value=false;
