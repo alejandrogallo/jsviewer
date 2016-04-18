@@ -72,6 +72,9 @@
                 </uib-tab-heading>
                 <!--{{chg}}-->
                 <ul class="list-group">
+                  <li class="list-group-item" ng-style="{'background': chg.color}">
+                    <button class="center-block btn btn-default" ng-click="renderVolumetricData(chg)">Render</button>
+                  </li>
                   <li class="list-group-item">
                     <div class="input-group">
                       <label for="isovalue">Isovalue (max {{chg.max|number:4}})</label>
@@ -124,9 +127,6 @@
                       <option ng-repeat="color in MAIN_COLORS" style="font-weight:bold; color:{{color}}" value="{{color}}">{{color}}</option>
                     </select>
                   </div>
-                </li>
-                <li class="list-group-item" ng-style="{'background': chg.color}">
-                  <button class="center-block btn btn-default" ng-click="renderVolumetricData(chg)">Render</button>
                 </li>
               </ul>
             </uib-tab>
