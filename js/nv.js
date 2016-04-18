@@ -62,7 +62,7 @@ angular.module("viewer", ["ui.bootstrap"])
     else {
       model.format="vasp"; //this would suit me
     }
-    model.settings = { sphere:{scale: 0.1} , stick:{radius: 0.1} };
+    model.settings = { sphere:{scale: 0.1}, stick:{radius: 0.1} };
     model.name     = name;
     model.value    = value? true: false;
     $scope.MODELS.push(model);
@@ -253,7 +253,7 @@ angular.module("viewer", ["ui.bootstrap"])
 
     if (chgcarObject.data) {
       if (!chgcarObject.surfaceObject) {
-        //printv("Rendering volumetric data for "+chgcarObject.name);
+        printv("Rendering volumetric data for "+chgcarObject.name);
         chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
         $scope.render();
       }
@@ -270,7 +270,7 @@ angular.module("viewer", ["ui.bootstrap"])
           var isovalue   = chgcarObject.isovalue;
         }
         chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
-        printv(chgcarObject.surfaceObject);
+        //printv(chgcarObject.surfaceObject);
         $scope.render();
       });
     }
@@ -317,7 +317,7 @@ angular.module("viewer", ["ui.bootstrap"])
   $scope.hideModel = function (model) {
     if (model.model_object) {
       printv("Hiding model "+model.name);
-      printv(model.model_object);
+      //printv(model.model_object);
       model.model_object.hide();
       $scope.render();
     }
@@ -353,6 +353,9 @@ angular.module("viewer", ["ui.bootstrap"])
           model.data         = response.data;
           model.model_object = $scope.MAIN_VIEWER.addModel(model.data, model.format);
           model.model_object.setStyle({}, model.settings);
+          //model.model_object.setClickable({}, true, function () { console.log("clicked"); });
+          //model.model_object.setStyle({within:{distance:3, sel:{atom:"Ge"}}}, {stick:{radius:1}});
+          console.log(model.model_object);
           $scope.render();
         });
       }
