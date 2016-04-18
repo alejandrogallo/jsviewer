@@ -1,3 +1,10 @@
+var VERBOSE = true;
+function printv(argument) {
+  if (VERBOSE) {
+    console.log(argument);
+  }
+}
+
 angular.module("viewer", ["ui.bootstrap"])
 .controller("ViewerController", ["$scope", "$http", "$filter", function($scope, $http, $filter){
 
@@ -24,14 +31,14 @@ angular.module("viewer", ["ui.bootstrap"])
 
 
   $scope.init = function() {
-    console.log("Initialising...");
+    printv("Initialising...");
     $scope.getChgcarNames();
     $scope.addModelObject("CONTCAR", true); // Maybe erase in the future
     //$scope.addChgcarObject("CHGCAR"); // Maybe erase in the future
     $scope.MAIN_VIEWER=$3Dmol.createViewer("viewer");
     $scope.MAIN_VIEWER.setBackgroundColor(0xffffff);
-    console.log("DEBUG: VIEWER");
-    console.log($scope.MAIN_VIEWER);
+    printv("DEBUG: VIEWER");
+    printv($scope.MAIN_VIEWER);
   }
 
   $scope.isOverriden = function(object, key) {
@@ -53,17 +60,17 @@ angular.module("viewer", ["ui.bootstrap"])
       model.format = format[0].replace(".","");
     }
     else {
-      //this would suit me
-      model.format="vasp";
+      model.format="vasp"; //this would suit me
     }
-    model.name = name;
-    model.value = value? true: false;
+    model.settings = { sphere:{scale: 0.1} , stick:{radius: 0.1} };
+    model.name     = name;
+    model.value    = value? true: false;
     $scope.MODELS.push(model);
   }
 
   $scope.setMaximumIsovalue = function (chgcarObject) {
     if (chgcarObject.data) {
-      console.log("Looking for maximum data point");
+      printv("Looking for maximum data point");
       var data = chgcarObject.data.data;
       var max=0;
       data.forEach(function(value, index){
@@ -71,7 +78,7 @@ angular.module("viewer", ["ui.bootstrap"])
           max = value;
         }
       });
-      console.log(max);
+      printv(max);
       chgcarObject.max = max;
     }
   }
@@ -106,7 +113,7 @@ angular.module("viewer", ["ui.bootstrap"])
 
     //Parse variables
     if (variablesToParse) {
-      console.log("Parsing variables...");
+      printv("Parsing variables...");
       var varArray = variablesToParse.split("&");
       for (var i = 0, len = varArray.length; i < len; i++) {
         var key   = varArray[i].split("=")[0];
@@ -172,15 +179,15 @@ angular.module("viewer", ["ui.bootstrap"])
   }
 
   $scope.getChgcarNames = function() {
-    console.log("Reading chgcars from  "+$scope.volumetricFilesPath);
+    printv("Reading chgcars from  "+$scope.volumetricFilesPath);
     $http.get($scope.volumetricFilesPath).then(function(response){
       var data = response.data;
-      console.log(data);
+      printv(data);
       data = data.split(/[\n\r]/);
       data.forEach(function(name){
         if (name) {
           $scope.addChgcarObject(name);
-          console.log($scope.CHGCARS);
+          printv($scope.CHGCARS);
         }
       });
     });
@@ -208,28 +215,23 @@ angular.module("viewer", ["ui.bootstrap"])
   "red",
   "maroon",
   "yellow",
+    "cyan",
     "orange",
-    "olive",
+      "olive",
       "lime",
-      "green",
+        "green",
         "aqua",
-        "cyan",
           "teal",
           "blue",
             "navy",
             "purple",
               "fuchsia",
               "magenta",
+                "grey",
                 "silver",
-                "gray",
-                  "grey",
+                  "gray",
                   "black"
   ];
-
-  $scope.clearVolumetric = function (chgcarObject) {
-    // TODO
-    $scope.clear();
-  }
 
   $scope.interactiveRenderVolumetric = function (chgcarObject) {
     if (chgcarObject.interactive) {
@@ -251,14 +253,14 @@ angular.module("viewer", ["ui.bootstrap"])
 
     if (chgcarObject.data) {
       if (!chgcarObject.surfaceObject) {
-        //console.log("Rendering volumetric data for "+chgcarObject.name);
+        //printv("Rendering volumetric data for "+chgcarObject.name);
         chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
         $scope.render();
       }
     } else {
-      console.log("Loading volumetric_data from "+volumetric_path);
+      printv("Loading volumetric_data from "+volumetric_path);
       $http.get(volumetric_path).then(function (response) {
-        console.log("Volumetric data received");
+        printv("Volumetric data received");
         var data       = response.data;
         var voldata    = new $3Dmol.VolumeData(data, format);
         chgcarObject.data = voldata;
@@ -268,7 +270,7 @@ angular.module("viewer", ["ui.bootstrap"])
           var isovalue   = chgcarObject.isovalue;
         }
         chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
-        console.log(chgcarObject.surfaceObject);
+        printv(chgcarObject.surfaceObject);
         $scope.render();
       });
     }
@@ -276,7 +278,7 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.removeShape = function (chgcarObject) {
     if (chgcarObject.surfaceObject) {
-      //console.log("Removing surface from file "+chgcarObject.name);
+      //printv("Removing surface from file "+chgcarObject.name);
       $scope.MAIN_VIEWER.removeShape(chgcarObject.surfaceObject);
       $scope.render();
       chgcarObject.surfaceObject = undefined;
@@ -284,7 +286,7 @@ angular.module("viewer", ["ui.bootstrap"])
   }
 
   $scope.renderChgcar = function() {
-    //console.log("Rendering Chgcar");
+    //printv("Rendering Chgcar");
     $scope.CHGCARS.forEach(function(chgcarObject, index){
       if (chgcarObject.value) {
         $scope.renderVolumetricData(chgcarObject);
@@ -292,17 +294,39 @@ angular.module("viewer", ["ui.bootstrap"])
     });
   }
 
-  $scope.clear = function () {
-    $scope.MODELS.forEach(function(model){
-      $scope.removeModel(model);
-    });
+  $scope.removeChgcars = function () {
     $scope.CHGCARS.forEach(function(shape){
       $scope.removeShape(shape);
     });
-
   }
+
+  $scope.clear = function () {
+    $scope.removeModels();
+    $scope.removeChgcars();
+  }
+
   $scope.render = function () {
     $scope.MAIN_VIEWER.render();
+  }
+
+
+  //////////////
+  //  MODELS  //
+  //////////////
+
+  $scope.hideModel = function (model) {
+    if (model.model_object) {
+      printv("Hiding model "+model.name);
+      printv(model.model_object);
+      model.model_object.hide();
+      $scope.render();
+    }
+  }
+
+  $scope.removeModels = function () {
+    $scope.MODELS.forEach(function(model){
+      $scope.removeModel(model);
+    });
   }
 
   $scope.removeModel = function (model) {
@@ -312,30 +336,32 @@ angular.module("viewer", ["ui.bootstrap"])
       $scope.render();
     }
   }
-  $scope.hideModel = function (model) {
-    if (model.model_object) {
-      console.log("Hiding model "+model.name);
-      console.log(model.model_object);
-      model.model_object.hide();
-      $scope.render();
-    }
-  }
+
   $scope.renderModel = function (model) {
-    var modelPath=model.name;
-    var format=model.format;
     if (model.model_object) {
       model.model_object.show();
       $scope.render();
     } else {
-      $http.get(modelPath).then(function(response){
-        console.log("Structural data received");
-        var data= response.data;
-        var model_object = $scope.MAIN_VIEWER.addModel(data, format);
-        model.model_object = model_object;
-        model.model_object.setStyle({}, {sphere:{scale: 0.2}, stick:{radius:0.1}});
+      if (model.data) {
+        printv("Rendering model from data we already had");
+        model.model_object = $scope.MAIN_VIEWER.addModel(model.data, model.format);
+        model.model_object.setStyle({}, model.settings);
         $scope.render();
-      });
+      } else {
+        $http.get(model.name).then(function(response){
+          printv("Structural data received");
+          model.data         = response.data;
+          model.model_object = $scope.MAIN_VIEWER.addModel(model.data, model.format);
+          model.model_object.setStyle({}, model.settings);
+          $scope.render();
+        });
+      }
     }
+  }
+
+  $scope.refreshModel = function (model) {
+    $scope.removeModel(model);
+    $scope.renderModel(model);
   }
 
   $scope.renderModels = function() {
@@ -343,6 +369,10 @@ angular.module("viewer", ["ui.bootstrap"])
       $scope.renderModel(model);
     });
   }
+
+  ////////////
+  //  INIT  //
+  ////////////
 
   $scope.init();
 

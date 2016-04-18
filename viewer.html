@@ -189,6 +189,15 @@
                   <div class="btn-group">
                     <button class="btn btn-primary " ng-click="renderModel(model)">Render</button>
                     <button class="btn btn-primary " ng-click="hideModel(model)">Hide</button>
+                    <button class="btn btn-primary " uib-tooltip="Refresh" ng-click="refreshModel(model)">
+                      <i class="glyphicon glyphicon-refresh"></i>
+                    </button>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="input-group">
+                    <label for="format">Format</label>
+                    <input class="form-control" ng-model="model.format" type="text" >
                   </div>
                 </li>
                 <li class="list-group-item">
