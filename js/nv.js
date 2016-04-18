@@ -37,7 +37,7 @@ angular.module("viewer", ["ui.bootstrap"])
     var format = name.match(/\.\w+$/);
     if (format) {
       model.format = format[0].replace(".","");
-      if (model.format=="ALLK") {
+      if (model.format.match(/ALLK/)) {
         model.format="vasp";
       }
     }

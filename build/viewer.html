@@ -1241,7 +1241,7 @@ $3Dmol.workerString=function(){self.onmessage=function(b){b=b.data;var c=b.type;
     var format = name.match(/\.\w+$/);
     if (format) {
       model.format = format[0].replace(".","");
-      if (model.format=="ALLK") {
+      if (model.format.match(/ALLK/)) {
         model.format="vasp";
       }
     }
