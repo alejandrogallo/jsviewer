@@ -103,11 +103,13 @@ angular.module("viewer", ["ui.bootstrap"])
     chgcarObject.data        = false;
     chgcarObject.interactive = false;
     chgcarObject.value       = false;
+    chgcarObject.wireframe   = false;
+    chgcarObject.linewidth   = 1;
     chgcarObject.isovalue    = 0.01;
     chgcarObject.isoStep     = 0.0001;
     chgcarObject.opacity     = 0.95;
     chgcarObject.alpha       = 0.5;
-    chgcarObject.smoothness  = 1;
+    chgcarObject.smoothness  = 0;
     chgcarObject.voxel       = false;
     chgcarObject.color       = $scope.MAIN_COLORS[chgcarObject.index%$scope.MAIN_COLORS.length];
 
@@ -240,19 +242,24 @@ angular.module("viewer", ["ui.bootstrap"])
 
   $scope.renderVolumetricData = function (chgcarObject) {
 
-    var isovalue   = chgcarObject.isovalue;
-    var opacity    = chgcarObject.opacity;
-    var alpha      = chgcarObject.alpha;
-    var smoothness = chgcarObject.smoothness;
-    var voxel      = chgcarObject.voxel;
-    var format     = chgcarObject.format;
-    var color     = chgcarObject.color;
+    var format          = chgcarObject.format;
     var volumetric_path = chgcarObject.name;
+
+    var settings = {
+      linewidth  : chgcarObject.linewidth,
+      wireframe  : chgcarObject.wireframe,
+      voxel      : chgcarObject.voxel ,
+      isoval     : chgcarObject.isovalue  ,
+      color      : chgcarObject.color,
+      opacity    : chgcarObject.opacity ,
+      smoothness : chgcarObject.smoothness ,
+      alpha      : chgcarObject.alpha
+    };
 
     if (chgcarObject.data) {
       if (!chgcarObject.surfaceObject) {
         printv("Rendering volumetric data for "+chgcarObject.name);
-        chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
+        chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , settings);
         chgcarObject.value=true;
         $scope.render();
       }
@@ -268,7 +275,7 @@ angular.module("viewer", ["ui.bootstrap"])
           chgcarObject.isovalue = parseFloat($filter('number')(chgcarObject.max*0.8, 4));
           var isovalue   = chgcarObject.isovalue;
         }
-        chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , {voxel:voxel , isoval: isovalue  , color: color, opacity:opacity , smoothness:smoothness , alpha: alpha});
+        chgcarObject.surfaceObject = $scope.MAIN_VIEWER.addIsosurface(chgcarObject.data , settings);
         //printv(chgcarObject.surfaceObject);
         chgcarObject.value=true;
         $scope.render();
