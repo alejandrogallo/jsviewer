@@ -316,7 +316,9 @@ angular.module("viewer", ["ui.bootstrap"])
   $scope.renderVolumetrics = function() {
     //printv("Rendering Chgcar");
     $scope.CHGCARS.forEach(function(chgcarObject, index){
-      $scope.renderVolumetricData(chgcarObject);
+      if (chgcarObject.isovalue != 0) {
+        $scope.renderVolumetricData(chgcarObject);
+      }
     });
   }
 
