@@ -8,3 +8,9 @@ test-chgcar.list:
 
 update-test-viewer:
 	bash tools/update-test-viewer.sh
+
+
+BROWSER=firefox
+open-tests:
+	find tests | grep viewer.html | xargs -n1 firefox
+
