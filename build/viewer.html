@@ -1783,7 +1783,7 @@ function printv(argument) {
 angular.module("viewer", ["ui.bootstrap"])
 .controller("ViewerController", ["$scope", "$http", "$filter", function($scope, $http, $filter){
 
-  $scope.volumetricFilesPath="chgcar.list";
+  $scope.volumetricFilesPaths=["chgcar.list", "volumetric_data"];
 
   //DATABASE
   $scope.CHGCARS=[];
@@ -1956,16 +1956,18 @@ angular.module("viewer", ["ui.bootstrap"])
   }
 
   $scope.getChgcarNames = function() {
-    printv("Reading chgcars from  "+$scope.volumetricFilesPath);
-    $http.get($scope.volumetricFilesPath).then(function(response){
-      var data = response.data;
-      printv(data);
-      data = data.split(/[\n\r]/);
-      data.forEach(function(name){
-        if (name) {
-          $scope.addChgcarObject(name);
-          printv($scope.CHGCARS);
-        }
+    $scope.volumetricFilesPaths.forEach(function(volumetricFilesPath, index){
+      printv("Reading chgcars from  "+volumetricFilesPath);
+      $http.get(volumetricFilesPath).then(function(response){
+        var data = response.data;
+        printv(data);
+        data = data.split(/[\n\r]/);
+        data.forEach(function(name){
+          if (name) {
+            $scope.addChgcarObject(name);
+            printv($scope.CHGCARS);
+          }
+        });
       });
     });
   }
