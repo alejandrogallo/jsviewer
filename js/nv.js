@@ -101,7 +101,7 @@ angular.module("viewer", ["ui.bootstrap"])
     chgcarObject.index       = $scope.CHGCARS.length +1;
     chgcarObject.name        = path;
     chgcarObject.data        = false;
-    chgcarObject.interactive = false;
+    chgcarObject.interactive = true;
     chgcarObject.value       = false;
     chgcarObject.wireframe   = false;
     chgcarObject.linewidth   = 1;
@@ -197,8 +197,17 @@ angular.module("viewer", ["ui.bootstrap"])
 
 
 
+  $scope.CAMERA=50000;
+  $scope.setCameraSlab = function() {
+    $scope.MAIN_VIEWER.setSlab(-$scope.CAMERA,$scope.CAMERA);
+  };
+
+  $scope.saveImage = function () {
+    alert("Sorry, not yet implented, if you have any ideas..");
+  };
+
   $scope.renderAll = function() {
-    var CAMERA = 50;
+    var CAMERA = $scope.CAMERA;
     $scope.clear();
     $scope.renderModels();
     $scope.renderVolumetrics();

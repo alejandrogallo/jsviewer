@@ -20,11 +20,15 @@
 
         <div class="container">
 
-          <div class="btn-group ">
+         <div class="btn-group ">
+            <button class="btn btn-primary" type="submit" ng-click="saveImage()"><i class="glyphicon glyphicon-save"></i> Save</button>
             <button class="btn btn-primary" type="submit" ng-click="zoomToViewer()"><i class="glyphicon glyphicon-search"></i> Zoom</button>
             <button class="btn btn-primary" type="submit" ng-click="clear()">Clear</button>
             <button class="btn btn-primary" type="submit" ng-click="renderAll()">Re-render all</button>
             <button class="btn btn-primary" type="submit" ng-click="renderIso()">Re-render volumetric</button>
+            <div class="form-group">
+              <input type="number" uib-tooltip="Camera depth" name="camera" id="input1" class="form-control"  ng-change="setCameraSlab()" ng-value="CAMERA" ng-model="CAMERA" title="">
+            </div>
           </div>
 
         </div>
@@ -142,7 +146,7 @@
             <uib-tab-heading>
               <i ng-style="{'color': chg.color}" class="glyphicon glyphicon-cog"></i>
               {{chg.name}}
-              <button class="btn btn-xs " ng-class="{'btn-danger':!chg.value, 'btn-success': chg.value} "ub-tooltip="toggle" ng-click="toggleChgcar(chg)" >
+              <button class="btn btn-xs " ng-class="{'btn-danger':!chg.value, 'btn-success': chg.value} " uib-tooltip="toggle" ng-click="toggleChgcar(chg)" >
                 <i class="glyphicon glyphicon-minus" ng-hide="chg.value"></i>
                 <i class="glyphicon glyphicon-plus" ng-show="chg.value"></i>
               </button>
@@ -250,6 +254,7 @@
 
 <script src="bower_components/zoomooz/jquery.zoomooz.min.js" type="text/javascript" charset="utf-8"></script>
 
+<script src="js/3rdparty/html2canvas.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/nv.js" type="text/javascript" charset="utf-8"></script>
 
 

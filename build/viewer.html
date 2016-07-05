@@ -20,11 +20,15 @@
 
         <div class="container">
 
-          <div class="btn-group ">
+         <div class="btn-group ">
+            <button class="btn btn-primary" type="submit" ng-click="saveImage()"><i class="glyphicon glyphicon-save"></i> Save</button>
             <button class="btn btn-primary" type="submit" ng-click="zoomToViewer()"><i class="glyphicon glyphicon-search"></i> Zoom</button>
             <button class="btn btn-primary" type="submit" ng-click="clear()">Clear</button>
             <button class="btn btn-primary" type="submit" ng-click="renderAll()">Re-render all</button>
             <button class="btn btn-primary" type="submit" ng-click="renderIso()">Re-render volumetric</button>
+            <div class="form-group">
+              <input type="number" uib-tooltip="Camera depth" name="camera" id="input1" class="form-control"  ng-change="setCameraSlab()" ng-value="CAMERA" ng-model="CAMERA" title="">
+            </div>
           </div>
 
         </div>
@@ -142,7 +146,7 @@
             <uib-tab-heading>
               <i ng-style="{'color': chg.color}" class="glyphicon glyphicon-cog"></i>
               {{chg.name}}
-              <button class="btn btn-xs " ng-class="{'btn-danger':!chg.value, 'btn-success': chg.value} "ub-tooltip="toggle" ng-click="toggleChgcar(chg)" >
+              <button class="btn btn-xs " ng-class="{'btn-danger':!chg.value, 'btn-success': chg.value} " uib-tooltip="toggle" ng-click="toggleChgcar(chg)" >
                 <i class="glyphicon glyphicon-minus" ng-hide="chg.value"></i>
                 <i class="glyphicon glyphicon-plus" ng-show="chg.value"></i>
               </button>
@@ -1453,12 +1457,13 @@ $3Dmol.VolumeData.prototype.vasp = function(str) {
     var origin = this.origin = new $3Dmol.Vector3(0,0,0);
 
     this.size = {x:nX, y:nY, z:nZ};
-    this.unit = new $3Dmol.Vector3(xVec.x, yVec.y, zVec.z);
 
     // resize the vectors accordingly
     xVec = xVec.multiplyScalar(1/(l_units*nX));
     yVec = yVec.multiplyScalar(1/(l_units*nY));
     zVec = zVec.multiplyScalar(1/(l_units*nZ));
+
+    this.unit = new $3Dmol.Vector3(xVec.x, yVec.y, zVec.z);
 
     if (xVec.y != 0 || xVec.z != 0 || yVec.x != 0 || yVec.z != 0 || zVec.x != 0
             || zVec.y != 0) {
@@ -1486,6 +1491,7 @@ $3Dmol.VolumeData.prototype.vasp = function(str) {
       preConvertedData[i] = preConvertedData[i]*vol_scale*e_units;
     }
 
+    // This data is now in cube format
     this.data = preConvertedData;
 
     //console.log(xVec);
@@ -1870,7 +1876,7 @@ angular.module("viewer", ["ui.bootstrap"])
     chgcarObject.index       = $scope.CHGCARS.length +1;
     chgcarObject.name        = path;
     chgcarObject.data        = false;
-    chgcarObject.interactive = false;
+    chgcarObject.interactive = true;
     chgcarObject.value       = false;
     chgcarObject.wireframe   = false;
     chgcarObject.linewidth   = 1;
@@ -1966,8 +1972,17 @@ angular.module("viewer", ["ui.bootstrap"])
 
 
 
+  $scope.CAMERA=50000;
+  $scope.setCameraSlab = function() {
+    $scope.MAIN_VIEWER.setSlab(-$scope.CAMERA,$scope.CAMERA);
+  };
+
+  $scope.saveImage = function () {
+    alert("Sorry, not yet implented, if you have any ideas..");
+  };
+
   $scope.renderAll = function() {
-    var CAMERA = 50;
+    var CAMERA = $scope.CAMERA;
     $scope.clear();
     $scope.renderModels();
     $scope.renderVolumetrics();
