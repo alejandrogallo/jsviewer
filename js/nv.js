@@ -152,6 +152,9 @@ angular.module("viewer", ["ui.bootstrap"])
     $scope.CHGCARS.push(chgcarObject);
   }
 
+  // conf modal is visible or not
+  $scope.volumetric_conf_popover = false;
+
   $scope.activateAllChgcarobjects = function () {
     $scope.CHGCARS.forEach(function(element, index){
       element.value=true;

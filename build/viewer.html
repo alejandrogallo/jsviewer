@@ -9,6 +9,26 @@
   <body style="background-color:#FFFFFF" ng-app="viewer" ng-controller="ViewerController">
 
 
+    <!--CONFIGURATION FILE MODAL-->
+    <div class="" style="z-index:100000000;position:fixed;top:5em;left:5em;" ng-show="volumetric_conf_popover" >
+      <div class="modal-lg modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Volumetric data configuration file <code>volumetric_data</code></h4>
+          </div>
+          <div class="modal-body">
+            <span ng-repeat="chgcar in CHGCARS">
+              {{chgcar.name}}?<span ng-repeat="(prop,val) in chgcar.extras" ng-if="prop!='isovalue'">&{{prop}}={{val}}</span>&isovalue={{chgcar.isovalue}}
+              <br />
+            </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" ng-click="volumetric_conf_popover=volumetric_conf_popover?false:true" class="btn btn-default" >Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
 
       <div class="bg-warning col-sm-7">
@@ -26,9 +46,13 @@
             <button class="btn btn-primary" type="submit" ng-click="clear()">Clear</button>
             <button class="btn btn-primary" type="submit" ng-click="renderAll()">Re-render all</button>
             <button class="btn btn-primary" type="submit" ng-click="renderIso()">Re-render volumetric</button>
-            <div class="form-group">
+            <button class="btn btn-primary" ng-click="volumetric_conf_popover=volumetric_conf_popover?false:true" >
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
+              Volumetric conf.
+           </button>
+            <button class="btn btn-primary" >
               <input type="number" uib-tooltip="Camera depth" name="camera" id="input1" class="form-control"  ng-change="setCameraSlab()" ng-value="CAMERA" ng-model="CAMERA" title="">
-            </div>
+            </button>
           </div>
 
         </div>
@@ -233,8 +257,6 @@
 
   </div>
 </div>
-
-
 
 
 
@@ -1926,6 +1948,9 @@ angular.module("viewer", ["ui.bootstrap"])
 
     $scope.CHGCARS.push(chgcarObject);
   }
+
+  // conf modal is visible or not
+  $scope.volumetric_conf_popover = false;
 
   $scope.activateAllChgcarobjects = function () {
     $scope.CHGCARS.forEach(function(element, index){
