@@ -122,10 +122,14 @@ angular.module("viewer", ["ui.bootstrap"])
         var value = varArray[i].split("=")[1];
         if (key&&value) {
           //allow for overriding of keys
-          if (chgcarObject[key]) {
-            if (isNaN(parseFloat(value))) {
+          if (chgcarObject[key]!==undefined) {
+            if (value == "true") {
+              chgcarObject[key] = true;
+            } else if (value == "false") {
+              chgcarObject[key] = false;
+            } else if (isNaN(parseFloat(value))) {
               chgcarObject[key] = value;
-            }else {
+            } else {
               chgcarObject[key] = parseFloat(value);
             }
           }

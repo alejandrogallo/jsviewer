@@ -1478,10 +1478,7 @@ $3Dmol.VolumeData.prototype.vasp = function(str) {
 
     var origin = this.origin = new $3Dmol.Vector3(0,0,0);
 
-    //this.size = {x:100, y:100, z:100};
-    nX=80;
-    nY=100;
-    nZ=100;
+    //nX=80; //nY=100; //nZ=100;
     this.size = {x:nX, y:nY, z:nZ};
 
     // resize the vectors accordingly
@@ -1924,10 +1921,14 @@ angular.module("viewer", ["ui.bootstrap"])
         var value = varArray[i].split("=")[1];
         if (key&&value) {
           //allow for overriding of keys
-          if (chgcarObject[key]) {
-            if (isNaN(parseFloat(value))) {
+          if (chgcarObject[key]!==undefined) {
+            if (value == "true") {
+              chgcarObject[key] = true;
+            } else if (value == "false") {
+              chgcarObject[key] = false;
+            } else if (isNaN(parseFloat(value))) {
               chgcarObject[key] = value;
-            }else {
+            } else {
               chgcarObject[key] = parseFloat(value);
             }
           }
