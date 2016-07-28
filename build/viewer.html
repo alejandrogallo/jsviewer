@@ -1478,6 +1478,10 @@ $3Dmol.VolumeData.prototype.vasp = function(str) {
 
     var origin = this.origin = new $3Dmol.Vector3(0,0,0);
 
+    //this.size = {x:100, y:100, z:100};
+    nX=80;
+    nY=100;
+    nZ=100;
     this.size = {x:nX, y:nY, z:nZ};
 
     // resize the vectors accordingly
@@ -1519,7 +1523,8 @@ $3Dmol.VolumeData.prototype.vasp = function(str) {
     //console.log(xVec);
     //console.log(yVec);
     //console.log(zVec);
-    //console.log(this.unit);
+    console.log(this.unit);
+    console.log(this.size);
     //console.log(this.origin);
     //console.log(this.matrix);
     //console.log(this.data);
