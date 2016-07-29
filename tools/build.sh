@@ -9,10 +9,12 @@ function arrow()    { echo -e " \033[1;34m➜\033[0m  $@"; }
 #  Rough script to create a build  #
 ####################################
 
-VIEWER="../viewer.html"
-BUILD_VIEWER="../build/viewer.html"
+VIEWER="src/viewer.html"
+VIEWER_DIR=$(dirname ${VIEWER})
+BUILD_VIEWER=$(readlink -f "build/viewer.html")
+BUILD_DIR=$(dirname ${BUILD_VIEWER})
 
-mkdir -p ../build
+mkdir -p ${BUILD_DIR}
 
 header "Examining $VIEWER..."
 js_files=$(cat $VIEWER | grep "<script" | grep src | sed -e "s/.*src=\"\(\S*\)\".*/\1/")
@@ -22,21 +24,28 @@ header "Creating new viewer in $BUILD_VIEWER "
 cat $VIEWER | sed -e "/script.*src.*/d" -e "/<\/body/d" -e "/<\/html/d" > $BUILD_VIEWER
 
 
+arrow "Going into the directory of the viewer ${VIEWER_DIR}"
+cd ${VIEWER_DIR}
+
 for fileName in $js_files; do
 
   arrow "Parsing file $fileName"
 
-  if [ ! -f ../$fileName ]; then
+  if [ ! -f $fileName ]; then
     error "File $fileName not found"
     continue
   fi
 
   cat >> $BUILD_VIEWER <<EOF
   <script>
-  $(cat ../$fileName)
+  $(cat $fileName)
   </script>
 EOF
 done
 
 echo "</body></html>" >> $BUILD_VIEWER
+
+
+arrow "Going back"
+cd -
 
